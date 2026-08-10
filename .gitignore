@@ -1,0 +1,32 @@
+# Variaveis por ambiente - contem dados sensiveis (role_arn, external_id, etc.)
+*.tfvars
+*.tfvars.json
+
+# Local .terraform directories (providers, modules cache)
+**/.terraform/*
+
+# State files - o state real vive no backend S3, nunca committar o local
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Override files (uso local, nao deve ir pro repo)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Output de "terraform plan -out=..."
+*.tfplan
+*tfplan*
+
+# Configuracao local da CLI
+.terraformrc
+terraform.rc
+
+# OS / editor
+.DS_Store
