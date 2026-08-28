@@ -1,0 +1,9 @@
+app_repo: "https://github.com/docker/getting-started-app.git"
+app_src_dir: "/opt/getting-started-app"
+app_image: "getting-started"
+app_image_tag: "latest"
+app_container_name: "getting-started-app"
+app_port: 3000
+
+# admin_password vem de vault.yml (criptografado com ansible-vault)
+admin_password: "{{ vault_admin_password }}"

@@ -1,0 +1,30 @@
+---
+- name: Instalar Docker Engine e python3-pip (Amazon Linux 2023)
+  ansible.builtin.dnf:
+    name:
+      - docker
+      - python3-pip
+    state: present
+  become: true
+
+- name: Instalar o SDK python "docker" (necessario para os modulos community.docker)
+  ansible.builtin.pip:
+    name: docker
+    state: present
+    # evita conflito com pacotes ja instalados via dnf (ex: requests)
+    extra_args: --ignore-installed
+  become: true
+
+- name: Garantir que o servico docker esta habilitado e em execucao
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
+  become: true
+
+- name: Adicionar ec2-user ao grupo docker
+  ansible.builtin.user:
+    name: ec2-user
+    groups: docker
+    append: true
+  become: true

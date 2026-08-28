@@ -1,0 +1,51 @@
+---
+- name: Instalar git (necessario para clonar o codigo-fonte da aplicacao)
+  ansible.builtin.dnf:
+    name: git
+    state: present
+  become: true
+
+- name: Clonar o codigo-fonte oficial da getting-started-app (sem alteracoes)
+  ansible.builtin.git:
+    repo: "{{ app_repo }}"
+    dest: "{{ app_src_dir }}"
+    version: main
+  become: true
+
+# Dockerfile do tutorial oficial "Getting Started" da Docker (o repo nao inclui um)
+- name: Criar o Dockerfile conforme o tutorial oficial "Getting Started" da Docker
+  ansible.builtin.copy:
+    dest: "{{ app_src_dir }}/Dockerfile"
+    content: |
+      # syntax=docker/dockerfile:1
+
+      FROM node:24-alpine
+      WORKDIR /app
+      COPY . .
+      RUN npm install --omit=dev
+      CMD ["node", "src/index.js"]
+      EXPOSE 3000
+    mode: "0644"
+  become: true
+
+- name: Construir a imagem da aplicacao a partir do codigo-fonte clonado
+  community.docker.docker_image:
+    name: "{{ app_image }}"
+    tag: "{{ app_image_tag }}"
+    source: build
+    build:
+      path: "{{ app_src_dir }}"
+      pull: true
+  become: true
+
+- name: Executar o container da aplicacao
+  community.docker.docker_container:
+    name: "{{ app_container_name }}"
+    image: "{{ app_image }}:{{ app_image_tag }}"
+    state: started
+    restart_policy: always
+    published_ports:
+      - "{{ app_port }}:3000"
+    env:
+      ADMIN_PASSWORD: "{{ admin_password }}"
+  become: true

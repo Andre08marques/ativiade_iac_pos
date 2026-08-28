@@ -54,9 +54,13 @@ resource "aws_instance" "este" {
   vpc_security_group_ids      = [aws_security_group.este.id]
   associate_public_ip_address = var.associar_ip_publico
   user_data                   = var.user_data
+  key_name                    = var.key_name
 
-  tags = {
-    Name  = "instancia-${var.nome_projeto}"
-    Curso = "pos-devops-iac"
-  }
+  tags = merge(
+    {
+      Name  = "instancia-${var.nome_projeto}"
+      Curso = "pos-devops-iac"
+    },
+    var.extra_tags
+  )
 }

@@ -1,0 +1,9 @@
+---
+- name: Configurar Docker Engine e executar a getting-started-app
+  hosts: all
+  become: true
+  gather_facts: true
+
+  roles:
+    - docker
+    - app

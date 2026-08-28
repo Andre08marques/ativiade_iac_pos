@@ -46,3 +46,14 @@ variable "vpc" {
     public_subnets = []
   }
 }
+
+variable "ip_ssh_permitido" {
+  type        = string
+  description = "CIDR liberado na porta 22 da instancia da aplicacao (usado pelo Ansible via SSH)"
+}
+
+variable "project_name" {
+  type        = string
+  description = "nome base usado nas tags/nome da instancia da aplicacao getting-started-app"
+  default     = "getting-started"
+}

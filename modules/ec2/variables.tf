@@ -40,3 +40,15 @@ variable "user_data" {
   default     = null
   description = "script de inicializacao da instancia; opcional"
 }
+
+variable "key_name" {
+  type        = string
+  default     = null
+  description = "nome da key pair EC2 usada para acesso SSH; opcional"
+}
+
+variable "extra_tags" {
+  type        = map(string)
+  default     = {}
+  description = "tags adicionais mescladas na instancia (ex: usadas pelo inventario dinamico do Ansible)"
+}

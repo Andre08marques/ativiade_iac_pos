@@ -30,3 +30,13 @@ terraform.rc
 
 # OS / editor
 .DS_Store
+
+# Chave privada SSH gerada pelo Terraform para o Ansible
+ssh/*.pem
+
+# Ansible: senha do vault e caches/logs locais
+ansible/.vault_pass
+ansible/*.retry
+ansible/inventory/.cache/
+**/__pycache__/
+

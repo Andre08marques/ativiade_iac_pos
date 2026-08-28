@@ -1,0 +1,20 @@
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - us-east-1
+
+# filtra so a instancia desta aplicacao
+filters:
+  tag:Project: getting-started
+  instance-state-name: running
+
+# agrupa por ambiente (tag_Environment_dev / tag_Environment_prod)
+keyed_groups:
+  - key: tags.Environment
+    prefix: tag_Environment
+    separator: "_"
+
+compose:
+  ansible_host: public_ip_address
+  ansible_user: "'ec2-user'"
+  ansible_ssh_private_key_file: "'../ssh/getting-started-' + tags.Environment + '.pem'"
